@@ -1,0 +1,22 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="topWing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5EEAD4" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+    <linearGradient id="rightWing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF" />
+      <stop offset="100%" stop-color="#0D9488" />
+    </linearGradient>
+    <linearGradient id="shadowWing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#042F2E" />
+    </linearGradient>
+  </defs>
+  <!-- Left/Top large wing -->
+  <path d="M 5 50 L 95 10 L 50 60 Z" fill="url(#topWing)" />
+  <!-- Right/Bottom wing -->
+  <path d="M 95 10 L 75 90 L 50 60 Z" fill="url(#rightWing)" />
+  <!-- Inner shadow fold -->
+  <path d="M 50 60 L 75 90 L 45 80 Z" fill="url(#shadowWing)" />
+</svg>
