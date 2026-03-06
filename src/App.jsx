@@ -107,6 +107,22 @@ function App() {
           <WeeklyRoutine courses={courses} />
         </div>
       </div>
+
+      <footer style={{
+        marginTop: '3rem',
+        padding: '2rem 0',
+        textAlign: 'center',
+        borderTop: '1px solid var(--card-border)',
+        color: 'var(--text-secondary)',
+        fontSize: '0.8rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.3rem',
+        opacity: 0.8
+      }}>
+        <p>仅供个人学习使用 | For personal learning use only</p>
+        <p>Developed by Mozzie</p>
+      </footer>
     </div>
   );
 }
