@@ -5,6 +5,7 @@ import WeeklyRoutine from './components/WeeklyRoutine';
 import DeadlineTimeline from './components/DeadlineTimeline';
 import CourseManager from './components/CourseManager';
 import WeeklyChecklistTable from './components/WeeklyChecklistTable';
+import MemoBoard from './components/MemoBoard';
 import { Sun, Moon } from 'lucide-react';
 
 function App() {
@@ -88,8 +89,13 @@ function App() {
         </p>
       </header>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <CourseManager courses={courses} setCourses={setCourses} />
+      <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '1rem', alignItems: 'flex-start' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <CourseManager courses={courses} setCourses={setCourses} />
+        </div>
+        <div style={{ flexShrink: 0, zIndex: 10 }}>
+          <MemoBoard />
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: '2rem', alignItems: 'start' }}>
@@ -97,7 +103,7 @@ function App() {
           <WeeklyChecklistTable courses={courses} />
           <DeadlineTimeline courses={courses} />
         </div>
-        <div style={{ position: 'sticky', top: '2rem' }}>
+        <div style={{ position: 'sticky', top: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <WeeklyRoutine courses={courses} />
         </div>
       </div>
