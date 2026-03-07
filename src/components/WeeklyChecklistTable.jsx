@@ -100,7 +100,16 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
     const handleClear = () => {
         if (!focusedCell) return;
         const { courseId, column } = focusedCell;
-        if (window.confirm("Are you sure you want to clear this cell? (确定一键清除吗?)")) {
+
+        const choice = window.prompt(
+            "请选择清除范围 (Clear Options):\n\n" +
+            "[1] 清除当前选中的文本框 (Clear current cell only)\n" +
+            "[2] 清除整张表的全部内容 (Clear ENTIRE table)\n\n" +
+            "请输入 1 或 2:",
+            "1"
+        );
+
+        if (choice === '1') {
             setTableData(prev => {
                 const currentText = prev[courseId]?.[column] || '';
                 pushToHistory(courseId, column, currentText);
@@ -109,6 +118,11 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
                     [courseId]: { ...prev[courseId], [column]: '' }
                 }
             });
+        } else if (choice === '2') {
+            if (window.confirm("❗ 警告：你确定要清空本周所有的 Checklist 内容吗？(Are you sure you want to clear everything?)")) {
+                setTableData({});
+                setHistory({});
+            }
         }
     };
 
