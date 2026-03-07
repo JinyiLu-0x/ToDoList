@@ -116,7 +116,7 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
         e.preventDefault();
         e.stopPropagation();
         if (!focusedCell) {
-            alert("请先点击下方表格中的输入框以选择位置 (Please click a text box below first).");
+            alert("请先点击下方表格中的输入框以选择操作位置");
             return;
         }
         action();
@@ -130,9 +130,8 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
             display: 'flex', gap: '0.4rem', padding: '0.4rem 0.6rem',
             backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)',
             borderRadius: '12px', alignItems: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-            opacity: focusedCell ? 1 : 0,
-            transform: focusedCell ? 'translateY(0)' : 'translateY(-5px)',
-            pointerEvents: focusedCell ? 'auto' : 'none',
+            opacity: 1,
+            pointerEvents: 'auto',
             transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             backdropFilter: 'blur(10px)',
             zIndex: 10

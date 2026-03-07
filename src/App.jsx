@@ -6,12 +6,15 @@ import DeadlineTimeline from './components/DeadlineTimeline';
 import CourseManager from './components/CourseManager';
 import WeeklyChecklistTable from './components/WeeklyChecklistTable';
 import MemoBoard from './components/MemoBoard';
+import CloudSyncPanel from './components/CloudSyncPanel';
 import { Sun, Moon } from 'lucide-react';
 
 function App() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
+
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const [courses, setCourses] = useState(() => {
     const version = localStorage.getItem('app_data_version');
@@ -27,7 +30,13 @@ function App() {
     if (saved) {
       let parsed = JSON.parse(saved);
       // Migrate old data if it exists
-      parsed = parsed.map(c => c.id === 'FIT1049' && c.name.includes('偏文科') ? { ...c, name: 'FIT1049 职业' } : c);
+      parsed = parsed.map(c => {
+        if (c.id === 'FIT1049') {
+          if (c.name.includes('偏文科')) c.name = 'FIT1049 职业';
+          if (c.tasks) c.tasks = c.tasks.map(t => (t.name === 'Portfolio Task 1' && t.weight === '5%') ? { ...t, weight: '10%' } : t);
+        }
+        return c;
+      });
       return parsed;
     }
     return initialCourses;
@@ -49,6 +58,7 @@ function App() {
   return (
     <div className="app-container" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <header style={{ textAlign: 'center', marginBottom: '1rem', position: 'relative' }}>
+        <CloudSyncPanel onPullComplete={() => { setRefreshKey(k => k + 1); window.location.reload(); }} />
         <button
           onClick={toggleTheme}
           style={{
