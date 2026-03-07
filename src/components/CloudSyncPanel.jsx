@@ -97,14 +97,14 @@ export default function CloudSyncPanel({ onPullComplete }) {
                     display: 'flex', alignItems: 'center', gap: '0.6rem',
                     cursor: 'pointer',
                     color: session ? 'white' : 'var(--text-primary)',
-                    transition: 'all 0.2s',
+                    transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                     boxShadow: '0 4px 12px var(--glass-shadow)',
                     fontWeight: '600',
                     fontSize: '0.95rem'
                 }}
             >
                 <Cloud size={18} />
-                {session ? '已连接 (Connected)' : '云端同步 (Cloud Sync)'}
+                {session ? '已连接' : '云端同步'}
             </button>
 
             {isMenuOpen && (
@@ -119,20 +119,24 @@ export default function CloudSyncPanel({ onPullComplete }) {
                     {!session ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
                             <h3 style={{ margin: 0, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.1rem' }}>
-                                <Cloud size={20} color="var(--accent)" /> 登录云端 (Login)
+                                <Cloud size={20} color="var(--accent)" /> 登录云端
                             </h3>
+
                             <button
                                 onClick={handleTestAccountLogin}
                                 disabled={authLoading}
                                 style={{
-                                    background: '#10b981', color: 'white', border: 'none',
-                                    padding: '0.6rem', borderRadius: '6px', cursor: 'pointer',
+                                    background: 'var(--card-bg)', color: '#10b981', border: '1px solid #10b981',
+                                    padding: '0.7rem', borderRadius: '8px', cursor: 'pointer',
                                     fontWeight: 'bold', display: 'flex', alignItems: 'center',
-                                    justifyContent: 'center', gap: '0.5rem'
+                                    justifyContent: 'center', gap: '0.5rem', transition: 'all 0.2s',
+                                    opacity: authLoading ? 0.7 : 1
                                 }}
+                                onMouseEnter={e => { e.currentTarget.style.background = '#10b981'; e.currentTarget.style.color = 'white'; }}
+                                onMouseLeave={e => { e.currentTarget.style.background = 'var(--card-bg)'; e.currentTarget.style.color = '#10b981'; }}
                             >
                                 <KeyRound size={16} />
-                                {authLoading ? '登录中...' : '测试账号一键登录'}
+                                {authLoading ? '登录中...' : '访客一键登录体验'}
                             </button>
 
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -142,40 +146,35 @@ export default function CloudSyncPanel({ onPullComplete }) {
                             </div>
 
                             <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                                <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required
-                                    style={{ padding: '0.7rem', borderRadius: '8px', border: '1px solid var(--card-border)', background: 'var(--task-bg)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
-                                <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required
-                                    style={{ padding: '0.7rem', borderRadius: '8px', border: '1px solid var(--card-border)', background: 'var(--task-bg)', color: 'var(--text-primary)', fontSize: '0.9rem' }} />
-                                <button type="submit" disabled={authLoading} style={{ background: 'var(--accent)', color: 'white', border: 'none', padding: '0.7rem', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.95rem', marginTop: '0.5rem', transition: 'opacity 0.2s', opacity: authLoading ? 0.7 : 1 }}>
-                                    {authLoading ? '...' : '账号登录 (Login)'}
+                                <input type="email" placeholder="邮箱 (Email)" value={email} onChange={e => setEmail(e.target.value)} required
+                                    style={{ padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--card-border)', background: 'var(--bg-color)', color: 'var(--text-primary)', outline: 'none' }}
+                                    onFocus={e => e.currentTarget.style.borderColor = 'var(--accent)'} onBlur={e => e.currentTarget.style.borderColor = 'var(--card-border)'} />
+                                <input type="password" placeholder="密码 (Password)" value={password} onChange={e => setPassword(e.target.value)} required
+                                    style={{ padding: '0.6rem', borderRadius: '8px', border: '1px solid var(--card-border)', background: 'var(--bg-color)', color: 'var(--text-primary)', outline: 'none' }}
+                                    onFocus={e => e.currentTarget.style.borderColor = 'var(--accent)'} onBlur={e => e.currentTarget.style.borderColor = 'var(--card-border)'} />
+                                <button type="submit" disabled={authLoading} style={{ background: 'var(--accent)', color: 'white', border: 'none', padding: '0.7rem', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', marginTop: '0.2rem', transition: 'opacity 0.2s', opacity: authLoading ? 0.7 : 1 }}>
+                                    {authLoading ? '登录中...' : '账号登录'}
                                 </button>
                             </form>
                         </div>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.5rem', borderBottom: '1px solid var(--card-border)' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Current Account</span>
-                                    <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: '500' }}>{session.user.email}</span>
-                                </div>
-                                <button onClick={() => supabase.auth.signOut()} style={{ background: 'var(--task-bg)', border: '1px solid var(--card-border)', color: '#ef4444', padding: '0.4rem 0.8rem', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.3rem', transition: 'all 0.2s' }}>
-                                    <LogOut size={14} /> 退出
-                                </button>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.8rem', borderBottom: '1px solid var(--card-border)' }}>
+                                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>{session.user.email}</span>
+                                <button onClick={() => supabase.auth.signOut()} style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}>退出</button>
                             </div>
-
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                                <button onClick={handlePush} disabled={loading} style={{ background: 'var(--accent)', color: 'white', border: 'none', padding: '0.8rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', fontWeight: '600', fontSize: '0.95rem', transition: 'opacity 0.2s', opacity: loading ? 0.7 : 1 }}>
-                                    {loading ? <Loader2 size={18} className="animate-spin" /> : <UploadCloud size={18} />}
-                                    备份到云端 (Push to Cloud)
+                                <button onClick={handlePush} disabled={loading} style={{ background: 'var(--bg-color)', border: '1px solid var(--card-border)', color: 'var(--text-primary)', padding: '0.7rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontWeight: '600', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--card-border)'}>
+                                    {loading ? <Loader2 size={16} className="animate-spin" /> : <UploadCloud size={16} />}
+                                    同步到云端 (Push)
                                 </button>
-                                <button onClick={handlePull} disabled={loading} style={{ background: 'var(--bg-color)', border: '1px solid var(--card-border)', color: 'var(--text-primary)', padding: '0.8rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', fontWeight: '600', fontSize: '0.95rem', transition: 'background 0.2s' }}>
-                                    {loading ? <Loader2 size={18} className="animate-spin" /> : <DownloadCloud size={18} />}
-                                    从云端恢复 (Pull from Cloud)
+                                <button onClick={handlePull} disabled={loading} style={{ background: 'var(--bg-color)', border: '1px solid var(--card-border)', color: 'var(--text-primary)', padding: '0.7rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontWeight: '600', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--text-primary)'} onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--card-border)'}>
+                                    {loading ? <Loader2 size={16} className="animate-spin" /> : <DownloadCloud size={16} />}
+                                    从云端恢复 (Pull)
                                 </button>
                             </div>
-                            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'flex', gap: '6px', alignItems: 'flex-start', background: 'rgba(239, 68, 68, 0.05)', padding: '0.6rem', borderRadius: '6px', border: '1px solid rgba(239, 68, 68, 0.1)' }}>
-                                <AlertCircle size={14} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
-                                <span>恢复操作会覆盖本地所有的 Checklist 和 Timeline 数据，请谨慎操作。</span>
+                            <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', opacity: 0.8, display: 'flex', gap: '4px', alignItems: 'center', justifyContent: 'center', marginTop: '0.2rem' }}>
+                                <AlertCircle size={12} /> 恢复操作会用云端数据覆盖本地
                             </div>
                         </div>
                     )}
