@@ -14,7 +14,12 @@ const WeeklyRoutine = ({ courses = [] }) => {
     useEffect(() => {
         const savedRoutines = localStorage.getItem('routine_items');
         if (savedRoutines) {
-            setRoutineItems(JSON.parse(savedRoutines));
+            const parsed = JSON.parse(savedRoutines);
+            if (parsed.length > 0) {
+                setRoutineItems(parsed);
+            } else {
+                setRoutineItems(initialRoutines);
+            }
         } else {
             setRoutineItems(initialRoutines);
         }
