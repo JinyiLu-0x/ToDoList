@@ -21,6 +21,7 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
     });
 
     const [focusedCell, setFocusedCell] = useState(null);
+    const [showClearModal, setShowClearModal] = useState(false);
 
     useEffect(() => {
         // When courses change, ensure we track all of them
@@ -98,38 +99,32 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
     };
 
     const handleClear = () => {
-        if (!focusedCell) return;
-        const { courseId, column } = focusedCell;
+        setShowClearModal(true);
+    };
 
-        const choice = window.prompt(
-            "请选择清除范围 (Clear Options):\n\n" +
-            "[1] 清除当前选中的文本框 (Clear current cell only)\n" +
-            "[2] 清除整张表的全部内容 (Clear ENTIRE table)\n\n" +
-            "请输入 1 或 2:",
-            "1"
-        );
-
-        if (choice === '1') {
+    const executeClear = (type) => {
+        if (type === 'cell' && focusedCell) {
             setTableData(prev => {
-                const currentText = prev[courseId]?.[column] || '';
-                pushToHistory(courseId, column, currentText);
+                const currentText = prev[focusedCell.courseId]?.[focusedCell.column] || '';
+                pushToHistory(focusedCell.courseId, focusedCell.column, currentText);
                 return {
                     ...prev,
-                    [courseId]: { ...prev[courseId], [column]: '' }
+                    [focusedCell.courseId]: { ...prev[focusedCell.courseId], [focusedCell.column]: '' }
                 }
             });
-        } else if (choice === '2') {
+        } else if (type === 'all') {
             if (window.confirm("❗ 警告：你确定要清空本周所有的 Checklist 内容吗？(Are you sure you want to clear everything?)")) {
                 setTableData({});
                 setHistory({});
             }
         }
+        setShowClearModal(false);
     };
 
-    const handleToolbarAction = (e, action) => {
+    const handleToolbarAction = (e, action, requiresFocus = true) => {
         e.preventDefault();
         e.stopPropagation();
-        if (!focusedCell) {
+        if (requiresFocus && !focusedCell) {
             alert("请先点击下方表格中的输入框以选择操作位置");
             return;
         }
@@ -155,7 +150,7 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
             <button onMouseDown={(e) => handleToolbarAction(e, () => insertIcon('⚠️'))} onClick={(e) => handleToolbarAction(e, () => insertIcon('⚠️'))} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Warning">⚠️</button>
             <div style={{ width: '1px', height: '20px', backgroundColor: 'var(--card-border)', margin: '0 0.2rem' }}></div>
             <button onMouseDown={(e) => handleToolbarAction(e, handleUndo)} onClick={(e) => handleToolbarAction(e, handleUndo)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.3rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center' }} title="Undo"><CornerUpLeft size={18} /></button>
-            <button onMouseDown={(e) => handleToolbarAction(e, handleClear)} onClick={(e) => handleToolbarAction(e, handleClear)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.3rem', color: '#ef4444', display: 'flex', alignItems: 'center' }} title="Clear"><Trash2 size={18} /></button>
+            <button onMouseDown={(e) => handleToolbarAction(e, handleClear, false)} onClick={(e) => handleToolbarAction(e, handleClear, false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '0.3rem', color: '#ef4444', display: 'flex', alignItems: 'center' }} title="Clear"><Trash2 size={18} /></button>
         </div>
     );
 
@@ -216,6 +211,52 @@ const WeeklyChecklistTable = ({ courses = [] }) => {
                     ))}
                 </tbody>
             </table>
+
+            {showClearModal && (
+                <div style={{
+                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                    backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(5px)',
+                    zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <div style={{
+                        background: 'var(--card-bg)', border: '1px solid var(--card-border)',
+                        padding: '2rem', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)',
+                        maxWidth: '400px', width: '90%', textAlign: 'center'
+                    }}>
+                        <h3 style={{ marginTop: 0, color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                            <Trash2 size={24} color="#ef4444" /> 清除选项 (Clear Options)
+                        </h3>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>请选择要清除的范围：</p>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                            <button onClick={() => executeClear('cell')} disabled={!focusedCell} style={{
+                                padding: '0.8rem', borderRadius: '8px', border: '1px solid var(--card-border)',
+                                background: 'var(--bg-color)', color: 'var(--text-primary)',
+                                cursor: focusedCell ? 'pointer' : 'not-allowed', opacity: focusedCell ? 1 : 0.5,
+                                fontWeight: '600', transition: 'all 0.2s'
+                            }}>
+                                清除当前选中的文本框
+                            </button>
+                            <button onClick={() => executeClear('all')} style={{
+                                padding: '0.8rem', borderRadius: '8px', border: 'none',
+                                background: '#ef4444', color: 'white', cursor: 'pointer',
+                                fontWeight: 'bold', transition: 'all 0.2s'
+                            }}>
+                                ⚠️ 清空整周所有 Checklist
+                            </button>
+
+                            <div style={{ marginTop: '0.5rem' }}>
+                                <button onClick={() => setShowClearModal(false)} style={{
+                                    padding: '0.5rem 1rem', background: 'transparent', border: 'none',
+                                    color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'underline'
+                                }}>
+                                    取消 (Cancel)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
