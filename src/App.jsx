@@ -121,36 +121,34 @@ function App() {
       <footer style={{
         marginTop: '3rem',
         padding: '2rem 0',
-        textAlign: 'center',
         borderTop: '1px solid var(--card-border)',
         color: 'var(--text-secondary)',
-        fontSize: '0.8rem',
+        fontSize: '0.85rem',
         display: 'flex',
-        flexDirection: 'column',
-        gap: '0.3rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '0.8rem',
         opacity: 0.8
       }}>
-        <p>仅供个人学习使用 | For personal learning use only</p>
-        <p>Developed by Mozzie</p>
-        <a 
-          href="https://github.com/JinyiLu-0x/ToDoList" 
-          target="_blank" 
+        <span>Developed by Mozzie</span>
+        <span style={{ opacity: 0.4 }}>•</span>
+        <a
+          href="https://github.com/JinyiLu-0x/ToDoList"
+          target="_blank"
           rel="noopener noreferrer"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            gap: '0.4rem',
+            gap: '0.3rem',
             color: 'inherit',
             textDecoration: 'none',
-            marginTop: '0.5rem',
-            transition: 'opacity 0.2s'
+            transition: 'color 0.2s'
           }}
-          onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-          onMouseLeave={e => e.currentTarget.style.opacity = '0.8'}
+          onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={e => e.currentTarget.style.color = 'inherit'}
         >
           <Github size={14} />
-          <span>Open Source on GitHub</span>
+          <span>GitHub</span>
         </a>
       </footer>
     </div>
