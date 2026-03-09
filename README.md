@@ -21,6 +21,9 @@ Check out this promotional video generated using Remotion to see the dashboard i
 
 A minimalist, Apple-inspired dashboard for students to track deadlines, manage weekly routines, and write reflections.
 
+> 🌐 **Live Demo & Experience (在线体验)**: [https://semtrack.netlify.app/](https://semtrack.netlify.app/)
+> *(Powered by **Supabase** for backend data storage / 由 **Supabase** 提供后端数据存储)*
+
 ### 🚀 Features
 
 *   **Dynamic Course Management**: Add and manage your enrolled units/courses, complete with custom color coding.
@@ -75,6 +78,9 @@ In the **12-Week Timeline**:
 <summary><b>🇨🇳 中文版本</b></summary>
 
 一款极简主义、苹果风格的学生专属看板。支持追踪 Deadline (ddl)、管理每周常规任务，并进行每周复盘总结。
+
+> 🌐 **Live Demo & Experience (在线体验)**: [https://semtrack.netlify.app/](https://semtrack.netlify.app/)
+> *(Powered by **Supabase** for backend data storage / 由 **Supabase** 提供后端数据存储)*
 
 ### 🚀 功能特性
 
