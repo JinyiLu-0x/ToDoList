@@ -1,14 +1,14 @@
-# 📖 TodoList & Reflection Dashboard (待办与复盘看板)
+# TodoList & Reflection Dashboard
 
-> ✨ **A Vibe Coding Project | Vibe Coding 实践** ✨
-> 
-> *English: This project is the result of "vibe coding" — a spontaneous process of discovering my own needs and building a fun little toy to solve them. It's not just a todolist; it's a personalized tool crafted for my daily study routine.*
-> 
-> *中文：这个项目是 "vibe coding" 的产物——在一个发现自身需求的过程中，随性开发出的一个小玩具，用来解决我日常管理上的痛点。它不仅仅是一个待办事项表，更是为我量身定制的日常学习与管理工具。*
+<details open>
+<summary><b>English Version</b></summary>
 
-### 🎬 Demo Video (演示视频)
-Check out this promotional video generated using Remotion to see the dashboard in action!
-快来看看这个用 Remotion 制作的演示视频，了解看板的实际效果！
+> ✨ **A Vibe Coding Project** ✨
+> 
+> *This project is the result of "vibe coding" — a spontaneous process of identifying personal requirements and developing a tailored application to address them. Beyond a simple todolist, it serves as a personalized utility crafted to optimize daily study routines.*
+
+### 🎬 Demo Video
+Check out this promotional video generated using Remotion to see the dashboard in action:
 
 <video controls src="./demo-video.mp4" title="Demo Video" width="100%"></video>
 
@@ -16,13 +16,10 @@ Check out this promotional video generated using Remotion to see the dashboard i
 
 ---
 
-<details open>
-<summary><b>🇬🇧 English Version</b></summary>
-
 A minimalist, Apple-inspired dashboard for students to track deadlines, manage weekly routines, and write reflections.
 
-> 🌐 **Live Demo & Experience (在线体验)**: [https://semtrack.netlify.app/](https://semtrack.netlify.app/)
-> *(Powered by **Supabase** for backend data storage / 由 **Supabase** 提供后端数据存储)*
+> 🌐 **Live Demo**: [https://semtrack.netlify.app/](https://semtrack.netlify.app/)
+> *(Powered by **Supabase** for backend data storage)*
 
 ### 🚀 Features
 
@@ -75,12 +72,25 @@ In the **12-Week Timeline**:
 <br/>
 
 <details>
-<summary><b>🇨🇳 中文版本</b></summary>
+<summary><b>中文版本</b></summary>
+
+> ✨ **Vibe Coding 实践** ✨
+> 
+> *本项目是 "vibe coding" 的产物——在一个发现自身需求的过程中，随性开发出的应用，用来解决日常管理上的痛点。它不仅仅是一个待办事项表，更是为个人量身定制的日常学习与管理工具。*
+
+### 🎬 演示视频
+一起来看看这个用 Remotion 制作的演示视频，了解看板的实际效果：
+
+<video controls src="./demo-video.mp4" title="Demo Video" width="100%"></video>
+
+*(如果视频无法直接播放，请点击查看：[demo-video.mp4](./demo-video.mp4))*
+
+---
 
 一款极简主义、苹果风格的学生专属看板。支持追踪 Deadline (ddl)、管理每周常规任务，并进行每周复盘总结。
 
-> 🌐 **Live Demo & Experience (在线体验)**: [https://semtrack.netlify.app/](https://semtrack.netlify.app/)
-> *(Powered by **Supabase** for backend data storage / 由 **Supabase** 提供后端数据存储)*
+> 🌐 **在线体验**: [https://semtrack.netlify.app/](https://semtrack.netlify.app/)
+> *(由 **Supabase** 提供后端数据存储)*
 
 ### 🚀 功能特性
 
