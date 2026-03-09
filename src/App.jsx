@@ -7,7 +7,7 @@ import CourseManager from './components/CourseManager';
 import WeeklyChecklistTable from './components/WeeklyChecklistTable';
 import MemoBoard from './components/MemoBoard';
 import CloudSyncPanel from './components/CloudSyncPanel';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Github } from 'lucide-react';
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -132,6 +132,26 @@ function App() {
       }}>
         <p>仅供个人学习使用 | For personal learning use only</p>
         <p>Developed by Mozzie</p>
+        <a 
+          href="https://github.com/JinyiLu-0x/ToDoList" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.4rem',
+            color: 'inherit',
+            textDecoration: 'none',
+            marginTop: '0.5rem',
+            transition: 'opacity 0.2s'
+          }}
+          onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+          onMouseLeave={e => e.currentTarget.style.opacity = '0.8'}
+        >
+          <Github size={14} />
+          <span>Open Source on GitHub</span>
+        </a>
       </footer>
     </div>
   );
